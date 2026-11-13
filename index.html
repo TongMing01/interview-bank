@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>3D场景设计师面试题库</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#F3F5F4; --grid:rgba(40,80,84,.07); --surface:#FFFFFF; --fg:#18201F; --muted:#5D6B69;
+  --line:#D9E0DE; --accent:#2C6E72; --accent-soft:#E2EFEE; --done:#3E7D4F; --danger:#B23A32;
+  --f-display:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#121716; --grid:rgba(120,190,190,.06); --surface:#1A2120; --fg:#E4EBE9; --muted:#93A3A0;
+  --line:#2A3432; --accent:#6FB7B9; --accent-soft:#1F3332; --done:#79BE8A; --danger:#E0756C; color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.7;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px;}
+.wrap{max-width:780px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-right,0px)) 80px max(16px,env(safe-area-inset-left,0px))}
+header h1{font-family:var(--f-display);font-weight:900;font-size:clamp(28px,5vw,40px);line-height:1.2;margin:0;text-wrap:balance}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.lede{color:var(--muted);margin:12px 0 0;max-width:62ch}
+.stats{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;font-size:13px;color:var(--muted)}
+.stats b{font-family:var(--f-mono);color:var(--fg);font-variant-numeric:tabular-nums}
+.toolbar{position:sticky;top:0;z-index:5;margin:28px 0 8px;padding:12px 0;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid var(--line)}
+.toolbar input[type=search]{flex:1 1 220px;min-width:0}
+input,select,textarea,button{font:inherit;color:inherit}
+input[type=search],select,textarea,.field input{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+textarea{width:100%;resize:vertical;min-height:84px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--surface);border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:500}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.danger{background:var(--danger);border-color:var(--danger)}
+.section{margin-top:36px}
+.section h2{font-family:var(--f-display);font-size:18px;font-weight:700;margin:0 0 4px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.section h2 .range{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-weight:500}
+ol.qs{list-style:none;margin:0;padding:0}
+.q{display:grid;grid-template-columns:3.2em 1fr auto;gap:4px 10px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+.q .n{font-family:var(--f-mono);font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;padding-top:1px}
+.q .t{min-width:0;margin:0}
+.q.done .t{color:var(--muted)}
+.q.done .n{color:var(--done)}
+.q .acts{display:flex;gap:4px;align-items:center}
+.icon{border:1px solid transparent;background:none;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:12px;color:var(--muted);white-space:nowrap}
+.icon:hover{border-color:var(--line);color:var(--fg)}
+.icon.on{color:var(--done);border-color:var(--done)}
+.icon.del{color:var(--danger)}
+mark{background:var(--accent-soft);color:inherit;border-radius:2px}
+.empty{color:var(--muted);padding:24px 0}
+.panel{margin-top:44px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.panel h2{font-family:var(--f-display);font-size:18px;margin:0 0 4px}
+.panel p{margin:0 0 14px;color:var(--muted);font-size:13px}
+.panel form{display:grid;gap:12px}
+.field{display:grid;gap:4px}
+.field label{font-size:13px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.row > .field{flex:1 1 200px;min-width:0}
+.msg{font-size:13px;color:var(--muted);min-height:1.4em}
+.confirm{grid-column:2 / -1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--danger)}
+@media (max-width:520px){.q{grid-template-columns:2.6em 1fr}.q .acts{grid-column:2}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Environment Artist · Interview Prep</p>
+    <h1>3D场景设计师面试题库</h1>
+    <p class="lede">整理自小红书笔记「3D场景设计师offer指南来咯」，涵盖美术基础、建模技术与管线流程。新加的题目和掌握标记保存在当前浏览器里。</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="toolbar" role="search">
+    <input type="search" id="q" placeholder="搜索题目，例如 UV、烘焙、构图" aria-label="搜索题目">
+    <div class="chips" id="filters"></div>
+  </div>
+
+  <main id="list"></main>
+
+  <section class="panel">
+    <h2>添加新题目</h2>
+    <p>新题目会接在现有编号后面。</p>
+    <form id="addForm">
+      <div class="row">
+        <div class="field"><label for="secSel">分类</label><select id="secSel"></select></div>
+        <div class="field" id="newSecWrap" hidden><label for="newSec">新分类名称</label><input id="newSec" placeholder="例如 引擎与灯光"></div>
+      </div>
+      <div class="field"><label for="qText">题目</label><textarea id="qText" placeholder="输入题目内容"></textarea></div>
+      <div class="row" style="align-items:center"><button class="btn" type="submit">添加题目</button><span class="msg" id="formMsg"></span></div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>备份与迁移</h2>
+    <p>题目只保存在这台电脑的这个浏览器里。清除浏览器数据会丢失新加的题目，换电脑也看不到。定期导出备份，在别处用「导入备份」恢复。</p>
+    <div class="row" style="align-items:center">
+      <button class="btn" id="exportBtn" type="button">导出备份</button>
+      <button class="btn ghost" id="importBtn" type="button">导入备份</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+      <button class="btn ghost" id="resetBtn" type="button">恢复初始 24 题</button>
+      <span class="msg" id="backupMsg"></span>
+    </div>
+    <div id="resetConfirm" class="row" style="margin-top:10px;align-items:center" hidden>
+      <span class="msg" style="color:var(--danger)">会删除你新加的题目和掌握标记，无法撤销。</span>
+      <button class="btn danger" id="resetYes" type="button">确认恢复</button>
+      <button class="btn ghost" id="resetNo" type="button">取消</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const SEED = [
+ {
+  "n": 1,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "请介绍一下你擅长的场景风格（如写实、次世代、PBR、二次元卡通渲染、低多边形 Low-Poly），你是如何把控该风格的视觉基调的？",
+  "id": "q001"
+ },
+ {
+  "n": 2,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "在设计一个全新的游戏场景时，你的前期视觉参考（Moodboard / 灵感板）通常包含哪些内容？",
+  "id": "q002"
+ },
+ {
+  "n": 3,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "什么是场景中的“视觉引导线（Leading Lines）”与“视觉焦点（Focal Point）”？如何在关卡中引导玩家的视线？",
+  "id": "q003"
+ },
+ {
+  "n": 4,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "谈谈你对场景设计中“构图（Composition）、透视（Perspective）与空间层次（Layering）”的理解。",
+  "id": "q004"
+ },
+ {
+  "n": 5,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "为什么说“光影和色彩（Lighting & Color Mood）”是定调场景氛围的灵魂？举例说明冷暖对比的运用。",
+  "id": "q005"
+ },
+ {
+  "n": 6,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "什么是场景的“讲故事能力（Environmental Storytelling）”？如何通过细节（如破损、植被、垃圾、痕迹）交代场景背后的剧情？",
+  "id": "q006"
+ },
+ {
+  "n": 7,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "针对写实场景，你如何通过“材质的破损、污渍、侵蚀（Wear and Tear）”来增加真实感和历史感？",
+  "id": "q007"
+ },
+ {
+  "n": 8,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "简述次世代（Next-Gen）写实风格与风格化（Stylized）场景在制作思维和资产拆分上有何本质区别？",
+  "id": "q008"
+ },
+ {
+  "n": 9,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "什么是黄金分割与三分法？在大型露天关卡设计中如何避免视觉疲劳？",
+  "id": "q009"
+ },
+ {
+  "n": 10,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "如何处理自然地貌（如山体、悬崖、河流）与人造建筑（如古建筑、废墟、科幻基地）的融合过渡？",
+  "id": "q010"
+ },
+ {
+  "n": 11,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "谈谈你对建筑学基础（如支撑结构、力学受力、窗户与门的黄金比例）在3D场景设计中的重要性认识。",
+  "id": "q011"
+ },
+ {
+  "n": 12,
+  "section": "美术基础、空间审美与风格化",
+  "sectionOrder": 1,
+  "text": "面对不熟悉的题材（例如从末日废墟突然转到古风仙侠），你通常通过什么步骤快速建立视觉资料库和美术风格？",
+  "id": "q012"
+ },
+ {
+  "n": 13,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "介绍一下你目前常用的标准次世代制作管线（High-to-Low Poly Pipeline）的核心步骤。",
+  "id": "q013"
+ },
+ {
+  "n": 14,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "什么是高模（High Poly）烘焙低模（Low Poly）？烘焙时常见的瑕疵（如黑边、接缝错位、法线破损）是如何解决的？",
+  "id": "q014"
+ },
+ {
+  "n": 15,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "什么是法线贴图（Normal Map）？它和置换贴图（Displacement Map）、视差贴图（Parallax Map）有什么区别？",
+  "id": "q015"
+ },
+ {
+  "n": 16,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "谈谈你对拓网（Retopology）和布线（Edge Flow）的理解，硬表面（Hard Surface）建模和有机体（Organic）拓扑有什么不同要求？",
+  "id": "q016"
+ },
+ {
+  "n": 17,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "什么是UV展平（UV Unwrapping）？在展UV时如何平衡“最大化利用率（Texel Density）”与“减少可见缝隙（Seams）”？",
+  "id": "q017"
+ },
+ {
+  "n": 18,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "什么是纹素密度（Texel Density，简称TD）？在一个大型场景中如何保持所有资产的像素密度统一？",
+  "id": "q018"
+ },
+ {
+  "n": 19,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "模块化设计（Modular Design）在大型场景（如城市场景、室内走廊）中是如何应用的？有哪些优缺点？",
+  "id": "q019"
+ },
+ {
+  "n": 20,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "什么是Trim Sheet（饰带纹理/多合一纹理）和 Tileable Texture（无缝循环纹理）？它们对提升制作效率有什么帮助？",
+  "id": "q020"
+ },
+ {
+  "n": 21,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "谈谈你对 Substance 3D Painter / Designer 的掌握程度，你是如何利用节点网络制作复杂的程序化材质的？",
+  "id": "q021"
+ },
+ {
+  "n": 22,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "什么是群组塌陷、坐标轴归零（Freeze Transforms）与中心点（Pivot Point）对齐？为什么它们在导出时如此重要？",
+  "id": "q022"
+ },
+ {
+  "n": 23,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "简述 3D 资产的 LOD（Level of Detail，多细节层次）和碰撞体（Collision Mesh）的制作规范。",
+  "id": "q023"
+ },
+ {
+  "n": 24,
+  "section": "建模技术、资产制作与管线流程",
+  "sectionOrder": 2,
+  "text": "在面对超高精度模型时，你会选择 Nanite（虚幻引擎的虚拟几何体技术）还是传统的减面/烘焙法？它们对工作流带来了什么冲击？",
+  "id": "q024"
+ }
+];
+const KEY = "env-artist-question-bank-v1";
+const NEW_SEC = "__new__";
+const CN = ["一","二","三","四","五","六","七","八","九","十"];
+const $ = id => document.getElementById(id);
+
+let state = load();
+let filter = "all", term = "", pendingDelete = null;
+
+function load(){
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if(s && Array.isArray(s.questions)) return {questions:s.questions, done:s.done||[]};
+  }catch(e){}
+  return {questions: SEED.map(q=>({...q})), done: []};
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); return true; }
+  catch(e){ $("formMsg").textContent = "浏览器不允许保存，刷新后改动会丢失。"; return false; }
+}
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function hl(s){const e=esc(s); if(!term) return e; const t=esc(term).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); return e.replace(new RegExp(t,"gi"),m=>`<mark>${m}</mark>`)}
+function sections(){
+  const m = new Map();
+  for(const q of [...state.questions].sort((a,b)=>a.n-b.n)){
+    const k=q.section||"未分类";
+    if(!m.has(k)) m.set(k,{name:k,order:q.sectionOrder??99,items:[]});
+    m.get(k).items.push(q);
+  }
+  return [...m.values()].sort((a,b)=>a.order-b.order||a.items[0].n-b.items[0].n);
+}
+
+function render(){
+  const secs = sections(), done = new Set(state.done);
+  const doneCount = state.questions.filter(q=>done.has(q.id)).length;
+  $("stats").innerHTML = `<span>共 <b>${state.questions.length}</b> 题</span><span><b>${secs.length}</b> 个分类</span><span>已掌握 <b>${doneCount}</b> 题</span>`;
+  $("filters").innerHTML = [`<button class="chip" data-f="all" aria-pressed="${filter==="all"}">全部</button>`,
+    ...secs.map((s,i)=>`<button class="chip" data-f="${esc(s.name)}" title="${esc(s.name)}" aria-pressed="${filter===s.name}">${CN[i]||i+1}、${esc(s.name.slice(0,4))}</button>`),
+    `<button class="chip" data-f="todo" aria-pressed="${filter==="todo"}">未掌握</button>`].join("");
+
+  let html = "", shown = 0;
+  secs.forEach((s,i)=>{
+    if(filter!=="all" && filter!=="todo" && filter!==s.name) return;
+    const items = s.items.filter(q=>(!term||q.text.toLowerCase().includes(term.toLowerCase())) && (filter!=="todo"||!done.has(q.id)));
+    if(!items.length) return; shown += items.length;
+    const ns = s.items.map(q=>q.n);
+    html += `<section class="section"><h2>${CN[i]||i+1}、${esc(s.name)}<span class="range">Q${Math.min(...ns)}–Q${Math.max(...ns)}</span></h2><ol class="qs">`;
+    for(const q of items){
+      const d = done.has(q.id);
+      html += `<li class="q${d?" done":""}" data-id="${esc(q.id)}"><span class="n">${q.n}.</span><p class="t">${hl(q.text)}</p><span class="acts">`+
+        `<button class="icon${d?" on":""}" data-act="done" aria-pressed="${d}">${d?"已掌握":"标记掌握"}</button>`+
+        `<button class="icon del" data-act="del" aria-label="删除第${q.n}题">删除</button></span>`+
+        (pendingDelete===q.id?`<span class="confirm">删除后无法恢复。<button class="btn danger" data-act="confirmDel">确认删除</button><button class="btn ghost" data-act="cancelDel">取消</button></span>`:"")+`</li>`;
+    }
+    html += `</ol></section>`;
+  });
+  $("list").innerHTML = shown ? html : `<p class="empty">${state.questions.length?"没有找到匹配的题目。换个关键词试试。":"还没有题目。在下方表单里添加第一道题。"}</p>`;
+
+  const sel = $("secSel"), cur = sel.value;
+  sel.innerHTML = secs.map(s=>`<option value="${esc(s.name)}">${esc(s.name)}</option>`).join("") + `<option value="${NEW_SEC}">＋ 新建分类</option>`;
+  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value = cur; else if(secs.length) sel.value = secs[secs.length-1].name;
+  $("newSecWrap").hidden = sel.value !== NEW_SEC;
+}
+
+$("q").addEventListener("input", e=>{term=e.target.value.trim(); render()});
+$("filters").addEventListener("click", e=>{const b=e.target.closest("[data-f]"); if(!b) return; filter=b.dataset.f; render()});
+$("secSel").addEventListener("change", ()=>{$("newSecWrap").hidden = $("secSel").value!==NEW_SEC});
+
+$("list").addEventListener("click", e=>{
+  const b = e.target.closest("[data-act]"); if(!b) return;
+  const id = b.closest(".q").dataset.id, act = b.dataset.act;
+  if(act==="done"){ const d=new Set(state.done); d.has(id)?d.delete(id):d.add(id); state.done=[...d]; save(); }
+  if(act==="del") pendingDelete = id;
+  if(act==="cancelDel") pendingDelete = null;
+  if(act==="confirmDel"){ pendingDelete=null; state.questions=state.questions.filter(q=>q.id!==id); state.done=state.done.filter(x=>x!==id); save(); }
+  render();
+});
+
+$("addForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const text = $("qText").value.trim(); let sec = $("secSel").value;
+  if(sec===NEW_SEC) sec = $("newSec").value.trim();
+  if(!text){ $("formMsg").textContent="请先填写题目内容。"; return; }
+  if(!sec){ $("formMsg").textContent="请填写新分类的名称。"; return; }
+  const existing = state.questions.find(q=>q.section===sec);
+  const order = existing ? existing.sectionOrder : Math.max(0,...state.questions.map(q=>q.sectionOrder||0))+1;
+  const n = Math.max(0,...state.questions.map(q=>q.n))+1;
+  state.questions.push({id:"q"+String(n).padStart(3,"0")+"-"+Date.now().toString(36), n, section:sec, sectionOrder:order, text});
+  if(save()) $("formMsg").textContent = `已添加为第 ${n} 题。`;
+  $("qText").value=""; $("newSec").value="";
+  render();
+});
+
+$("exportBtn").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify({app:"3d-env-question-bank",version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  const d = new Date(), pad = x=>String(x).padStart(2,"0");
+  a.href = URL.createObjectURL(blob);
+  a.download = `面试题库备份-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  $("backupMsg").textContent = "已导出备份文件。";
+});
+$("importBtn").addEventListener("click", ()=>$("importFile").click());
+$("importFile").addEventListener("change", async e=>{
+  const f = e.target.files[0]; if(!f) return;
+  try{
+    const data = JSON.parse(await f.text());
+    if(!Array.isArray(data.questions) || !data.questions.every(q=>q && typeof q.text==="string" && typeof q.n==="number")) throw 0;
+    state = {questions:data.questions, done:Array.isArray(data.done)?data.done:[]};
+    save(); render();
+    $("backupMsg").textContent = `已导入 ${state.questions.length} 道题。`;
+  }catch(err){ $("backupMsg").textContent = "这个文件不是本题库导出的备份，没有导入。"; }
+  e.target.value = "";
+});
+$("resetBtn").addEventListener("click", ()=>{$("resetConfirm").hidden=false});
+$("resetNo").addEventListener("click", ()=>{$("resetConfirm").hidden=true});
+$("resetYes").addEventListener("click", ()=>{
+  state = {questions: SEED.map(q=>({...q})), done: []}; save(); render();
+  $("resetConfirm").hidden = true; $("backupMsg").textContent = "已恢复初始 24 题。";
+});
+
+render();
+</script>
+</body>
+</html>
